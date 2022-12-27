@@ -1,0 +1,7 @@
+Operation	                                        deque	list
+Accessing arbitrary items through indexing	        O(n)	O(1)
+Popping and appending items on the left end	        O(1)	O(n)
+Popping and appending items on the right end	    O(1)	O(1) + reallocation
+Inserting and deleting items in the middle	        O(n)	O(n)
+
+Deque is Java's LinkedList and list is Java's ArrayList
