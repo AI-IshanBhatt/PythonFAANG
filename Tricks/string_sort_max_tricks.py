@@ -46,7 +46,7 @@ print("Getting max Key-Value pair, min is self")
 max_pair = max(d.items(), key=lambda x:x[1])  # Here we are sorting d.items() which is a list of tuples
 print(max_pair)
 
-print("Sorting by KEY-VALUE, Ascending Descending")
+print("Sorting by KEY-VALUE, Ascending Descending ONLY RETURNS KEYS")
 print(sorted(d))  # Returns keys as list
 print(sorted(d, key=d.get))
 print(sorted(d, key=d.get, reverse=True))

@@ -1,6 +1,6 @@
 from typing import Optional, List
 from collections import deque
-from .TreeNode import TreeNode
+from TreeNode import TreeNode
 
 
 class Solution:
@@ -36,3 +36,25 @@ class Solution:
             pairs = [(node.left, node.right) for node in q]
             q = [leaf for pair in pairs for leaf in pair if leaf]
         return answer
+
+    def levelOrderFromMemory(self, root) -> List[List[int]]:
+
+        q, result = [root], []
+
+        while q:
+            result.append([node.val for node in q])
+            pairs = [(node.left, node.right) for node in q]
+            q = [leaf for pair in pairs for leaf in pair if leaf]
+
+        return result
+
+if __name__ == "__main__":
+    s = Solution()
+    root = TreeNode(5)
+    root.left = TreeNode(3)
+    root.right = TreeNode(7)
+    root.left.left = TreeNode(1)
+
+    # print(s.levelOrderList(root))
+    print(s.levelOrderFromMemory(root))
+
