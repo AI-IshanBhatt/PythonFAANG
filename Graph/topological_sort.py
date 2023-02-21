@@ -10,38 +10,39 @@ def add_edge(g,u,v):
 
 
 def topological_order_kahn(g):
-    incoming_degrees = [0] * len(g)
-    topological_order = []
-    q = deque()
-    for edges in g:
-        for edge in edges:
-            incoming_degrees[edge] += 1
+    incoming_edges = [0] * len(g)
+    queue = deque()
+    answer, visited = [], [False] * len(g)
 
-    for idx,ele in enumerate(incoming_degrees):
+    for node in range(len(g)):
+        for neighbor in g[node]:
+            incoming_edges[neighbor] += 1
+
+    for idx, ele in enumerate(incoming_edges):
         if ele == 0:
-            q.append(idx)
+            queue.append(idx)
 
-    while q:
-        current = q.popleft()
-        topological_order.append(current)
-        for edge in g[current]:
-            incoming_degrees[edge] -= 1
-            if incoming_degrees[edge] == 0:
-                q.append(edge)
+    while queue:
+        current = queue.popleft()
+        answer.append(current)
 
-    if any(incoming_degrees):
-        print("Cycle Detected")
+        if not visited[current]:
+            visited[current] = True
+            for neighbor in g[current]:
+                incoming_edges[neighbor] -= 1
+                if incoming_edges[neighbor] == 0:
+                    queue.append(neighbor)
 
-    return topological_order
-
-
+    return answer
 # We push the root/starting node in the beginning at the end.
 # Two variations of dfs
+
 
 def topological_order_dfs(g):
     visited = [False] * len(g)
     answer = deque()
 
+    # Dump current node at last in the beginning
     def dfs_util(current):
         visited[current] = True
         for node in g[current]:
@@ -64,15 +65,24 @@ graph = create_graph(7)
 # add_edge(graph, 4, 1)
 # add_edge(graph, 5, 0)
 # add_edge(graph, 5, 2)
+# add_edge(graph, 0, 2)
+# add_edge(graph, 1, 2)
+# add_edge(graph, 1, 3)
+# add_edge(graph, 2, 4)
+# add_edge(graph, 3, 5)
+# add_edge(graph, 4, 5)
+# add_edge(graph, 5, 6)
+# add_edge(graph, 6, 3)  # This edge makes the cycle
+add_edge(graph, 0, 1)
 add_edge(graph, 0, 2)
-add_edge(graph, 1, 2)
-add_edge(graph, 1, 3)
+add_edge(graph, 1, 4)
 add_edge(graph, 2, 4)
+add_edge(graph, 2, 3)
+add_edge(graph, 4, 3)
+add_edge(graph, 4, 6)
 add_edge(graph, 3, 5)
-add_edge(graph, 4, 5)
-add_edge(graph, 5, 6)
-add_edge(graph, 6, 3)  # This edge makes the cycle
+add_edge(graph, 6, 5)
 
 print(graph)
 print(topological_order_kahn(graph))
-print(topological_order_dfs(graph))
+# print(topological_order_dfs(graph))

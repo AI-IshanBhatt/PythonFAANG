@@ -23,7 +23,7 @@ def dfs(g, start_point):
             stack.extend(g[current])
 
 
-def dfs_recurse(g, start_point):
+def dfs_recurse_with_start(g, start_point):
     answer = []
     visited = [False] * len(g)
 
@@ -36,6 +36,25 @@ def dfs_recurse(g, start_point):
                 dfs_util(i)
 
     dfs_util(start_point)
+    return answer
+
+
+def dfs_recurse(g):
+    answer = []
+    visited = [False] * len(g)
+
+    def dfs_util(current):
+        answer.append(current)
+        visited[current] = True
+
+        for n in g[current]:
+            if not visited[n]:
+                dfs_util(n)
+
+    for i in range(len(g)):
+        if not visited[i]:
+            dfs_util(i)
+
     return answer
 
 
@@ -102,7 +121,7 @@ graph = create_graph(9)
 add_edge(graph, 0, 1)
 add_edge(graph, 1, 2)
 add_edge(graph, 2, 3)
-add_edge(graph, 3, 4)
+add_edge(graph, 3, 1)
 add_edge(graph, 2, 5)
 add_edge(graph, 5, 4)
 add_edge(graph, 6, 1)
@@ -113,7 +132,8 @@ add_edge(graph, 8, 6)
 print(detect_cycle_directed(graph))
 dfs(graph, 0)
 print()
-print(dfs_recurse(graph, 0))
+print(dfs_recurse_with_start(graph, 0))
+print(dfs_recurse(graph))
 print("+" * 100)
 
 graph_1 = create_graph(7)
@@ -126,7 +146,7 @@ add_edge(graph_1, 3, 5, True)
 add_edge(graph_1, 0, 5, True)
 dfs(graph_1, 0)
 print()
-print(dfs_recurse(graph_1, 0))
+print(dfs_recurse_with_start(graph_1, 0))
 bfs(graph_1, 0)
 print()
 print(detect_cycle_undirected(graph_1))
