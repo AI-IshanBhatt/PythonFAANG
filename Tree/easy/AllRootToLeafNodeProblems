@@ -1,0 +1,125 @@
+import java.util.*;
+
+public class AllRootToLeafNodeProblems {
+
+    public static boolean sumPathToRootExists(BinaryTree root, int sum) {
+
+        if(root == null) return false;
+
+        if(sum == root.getData() && BinaryTree.isLeaf(root)) {
+            return true;
+        }
+        else {
+            boolean leftSum = sumPathToRootExists(root.getLeftSubTree(), sum - root.getData());
+            boolean rightSum = sumPathToRootExists(root.getRightSubTree(), sum - root.getData());
+
+            return leftSum || rightSum;
+        }
+    }
+
+    public static void allPathsFromRoot(BinaryTree root, List<Integer> path, List<List<Integer>> result) {
+        if(root == null) return;
+
+        if(BinaryTree.isLeaf(root)) {
+            path.add(root.getData());
+            result.add(new ArrayList<>(path));
+            path.remove(path.size()-1);  // Remove the current leafNode from the path so it can accomodate another leafnode
+            return;
+        }
+
+        path.add(root.getData());
+        allPathsFromRoot(root.getLeftSubTree(), path, result);
+        allPathsFromRoot(root.getRightSubTree(), path, result);
+        path.remove(path.size()-1); // All of the descendants of this node is explored, nothing to check
+    }
+
+    public static void allPathsFromRootWithGivenSum(BinaryTree root, int sum, List<Integer> path, List<List<Integer>> result) {
+        if(root == null) return;
+
+        if(BinaryTree.isLeaf(root) && sum == root.getData()) {
+            path.add(root.getData());
+            result.add(new ArrayList<>(path));
+            path.remove(path.size()-1);
+            return;
+        }
+
+        path.add(root.getData());
+        allPathsFromRootWithGivenSum(root.getLeftSubTree(), sum- root.getData(), path, result);
+        allPathsFromRootWithGivenSum(root.getRightSubTree(), sum- root.getData(), path, result);
+        path.remove(path.size()-1);
+    }
+
+    public static void pathWithMaximumSum(BinaryTree root, List<Integer> path, Map<Integer, List<Integer>> resultMap) {
+        if(root == null) return;
+
+        if(BinaryTree.isLeaf(root)) {
+            path.add(root.getData());
+            int sum = path.stream().mapToInt(Integer::intValue).sum();
+            resultMap.put(sum, new ArrayList<>(path));
+            path.remove(path.size() - 1);
+        }
+
+        path.add(root.getData());
+        pathWithMaximumSum(root.getLeftSubTree(), path, resultMap);
+        pathWithMaximumSum(root.getRightSubTree(), path, resultMap);
+        path.remove(path.size() - 1);
+    }
+
+    //
+
+    public static void main(String[] args) {
+        // Data Setup
+        BinaryTree root = new BinaryTree(10);
+        BinaryTree left1 = new BinaryTree(16);
+        BinaryTree right1 = new BinaryTree(5);
+        BinaryTree right2 = new BinaryTree(-3);
+        BinaryTree left2 = new BinaryTree(6);
+        BinaryTree right3 = new BinaryTree(11);
+
+        root.addLeftChild(left1);
+        root.addRightChild(right1);
+        left1.addRightChild(right2);
+        right1.addLeftChild(left2);
+        right1.addRightChild(right3);
+        left1.addLeftChild(new BinaryTree(1));
+        left2.addLeftChild(new BinaryTree(5));
+
+        // Algorithms -  sumExists
+        System.out.println(sumPathToRootExists(root, 26));
+        System.out.println(sumPathToRootExists(root, 30));
+        System.out.println();
+
+        // Print all paths from root to leaf nodes
+        List<Integer> path = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
+        allPathsFromRoot(root, path, result);
+        for(List<Integer> l:result) {
+            l.forEach(x -> System.out.print(x + " "));
+            System.out.println();
+        }
+        System.out.println();
+
+        // Print al paths from root to leafNode which sums up to given number
+        path = new ArrayList<>();
+        result = new ArrayList<>();
+        allPathsFromRootWithGivenSum(root, 26, path, result);
+        for(List<Integer> l:result) {
+            l.forEach(x -> System.out.print(x + " "));
+            System.out.println();
+        }
+        System.out.println();
+
+        // Print the path with minimum sum and print the sum
+        path = new ArrayList<>();
+        Map<Integer, List<Integer>> resultMap = new HashMap<>();
+        pathWithMaximumSum(root, path, resultMap);
+        Map.Entry<Integer, List<Integer>> entry = resultMap.entrySet().stream().max(Comparator.comparingInt(Map.Entry::getKey)).get();
+        System.out.println(entry.getKey());
+        entry.getValue().forEach(x -> System.out.print(x+" "));
+        System.out.println();
+    }
+
+
+}
+
+Convert it into Python

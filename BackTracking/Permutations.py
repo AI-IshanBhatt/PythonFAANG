@@ -10,9 +10,9 @@ def get_permutations(nums):
             return
         for ele in nums:
             if ele not in temp:
-                dfs(temp | {ele})
+                dfs(temp + [ele])
 
-    dfs(set())
+    dfs([])
     return answer
 
 

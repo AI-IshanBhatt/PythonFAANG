@@ -1,6 +1,6 @@
-from typing import List
-from math import inf
 from collections import defaultdict
+from math import inf
+from typing import List
 
 
 def taskSchedulerII(tasks: List[int], space: int) -> int:

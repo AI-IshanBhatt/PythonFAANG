@@ -63,7 +63,7 @@ print(elements)
 print("".join(elements))
 
 print("MATH OPERATIONS ON THE COUNTERS Treat it like dict if you want calculations on values")
-sales_day1 = Counter(apple=4, orange=9, banana=4)
+sales_day1 = Counter(apple=4, orange=9, banana=6)
 sales_day2 = Counter(apple=10, orange=8, banana=6)
 
 print(f"Total Sales {sales_day1 + sales_day2}")
