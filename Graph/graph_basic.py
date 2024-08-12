@@ -84,6 +84,7 @@ def detect_cycle_directed(g):
             else:
                 if detect_cycle_util(ele):  # Can not return directly we only want to return if it is True in case of
                     # False we want to continue the loop, in case of True we do not want to check for anything else
+                    # Try to detect cycle from v nodes, if it is detected return True, else move on to next node
                     return True
         path.remove(current)
         return False
