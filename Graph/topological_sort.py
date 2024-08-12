@@ -48,6 +48,8 @@ def topological_sort_dfs(g):
                 dfs_util(neighbor)
 
         # Add after your dfs is done
+        # Here we will put 1. node without children or 2.Node with explored children,
+        # This guarantees node without children, DEEPEST ONES | on whom NO NODE is dependent is ADDED FIRST because of DFS/Recursion.
         answer.append(start)
 
     # Have to do it for all the elements
